@@ -1,0 +1,27 @@
+{
+  "calva.replConnectSequences": [
+    {
+      "name": "portal",
+      "projectType": "deps.edn",
+      "projectRootPath": [
+        "."
+      ],
+      "autoSelectForJackIn": true,
+      "shouldOpenUrl": false,
+      "cljsType": {
+        "dependsOn": "User provided",
+        "isStarted": false,
+        "connectCode": "((requiring-resolve 'portal.api/repl))",
+        "isConnectedRegExp": ":repl"
+      },
+      "extraNReplMiddleware": [
+        "portal.nrepl/middleware"
+      ],
+      "menuSelections": {
+        "cljAliases": [
+          "dev"
+        ]
+      }
+    }
+  ]
+}
