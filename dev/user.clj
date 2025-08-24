@@ -1,4 +1,4 @@
-(ns dev.user
+(ns user
   (:require
    [portal.api :as p]
    [portal.user :as-alias u]))
