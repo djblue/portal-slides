@@ -27,7 +27,8 @@
             :server  (select-keys server [:host :port])
             :options (dissoc options :value ::session)})))
 
-(defn- get-state [] (-> rt/*session* :options :value))
+(defn- get-options [] (:options rt/*session*))
+(defn- get-state [] (:value (get-options)))
 
 (defn- close
   {:command true}
@@ -163,13 +164,14 @@
              (cond-> @nrepl (doto tap>))
              :result))))))
 
-(defn slide-count [{:keys [slides]}]
+(defn- slide-count [{:keys [slides]}]
   (count (str/split slides #"---\n")))
 
-(defn reset-tap-env! []
-  #_#_#_(swap! @#'portal.runtime/tap-list empty)
-      (reset! nrepl false)
-    (swap! @#'clojure.core/tapset empty))
+(defn- reset-tap-env! []
+  (when (:reset-tap-env (get-options))
+    (swap! @#'portal.runtime/tap-list empty)
+    (reset! nrepl false)
+    (swap! @#'clojure.core/tapset empty)))
 
 (defn prev-slide
   {:command true
