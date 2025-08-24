@@ -54,7 +54,7 @@
   [& _]
   (when-let [state (get-state)]
     (swap! state #(merge {:portals [] :current-slide 0} %))
-    (swap! state assoc :slides (fs/slurp (io/resource (:file @state))))))
+    (swap! state assoc :slides (fs/slurp (io/resource (::file (get-options)))))))
 
 (defmacro doc [doc-symbol]
   `(v/text (with-out-str (repl/doc ~doc-symbol))))
@@ -93,7 +93,7 @@
      (let [open          p/open
            state         (get-state)
            current-slide (:current-slide @state)
-           file          (:file @state)
+           file          (::file @state)
            report        (atom [])
            stdio         (atom [])
            slide-ns      (if-not current-slide
@@ -226,9 +226,9 @@
   (p/inspect
    (atom {:portals []
           :current-slide 0
-          :file file
           :slides (fs/slurp (io/resource file))})
    (merge
     {:window-title "slides"
-     :main `-main}
+     :main `-main
+     ::file file}
     (dissoc opts :file :main))))
